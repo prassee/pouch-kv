@@ -11,14 +11,14 @@ var kv = kvrepo.NewKVStore()
 
 func main() {}
 
-//Put -
+//Put - adds a key value entry in to store
 func Put(key, value string) {
 	mut.Lock()
 	defer mut.Unlock()
 	kv.Put(key, value)
 }
 
-//Delete -
+//Delete - removes key from store
 func Delete(key string) {
 	mut.Lock()
 	defer mut.Unlock()
@@ -27,7 +27,7 @@ func Delete(key string) {
 	}
 }
 
-//Get -
+//Get - finds the value of given key
 func Get(key string) string {
 	mut.RLock()
 	defer mut.RUnlock()
