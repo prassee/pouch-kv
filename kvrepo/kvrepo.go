@@ -1,3 +1,6 @@
+/*
+Package kvrepo - the simple map based backend
+*/
 package kvrepo
 
 type kvrepo struct {

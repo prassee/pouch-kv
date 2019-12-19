@@ -1,5 +1,6 @@
 package main
-import "C"
+
+// import "C"
 import (
 	"simpleGoKVStore/kvrepo"
 	"sync"
@@ -10,14 +11,14 @@ var kv = kvrepo.NewKVStore()
 
 func main() {}
 
-//export Put
+//Put -
 func Put(key, value string) {
 	mut.Lock()
 	defer mut.Unlock()
 	kv.Put(key, value)
 }
 
-//export Delete
+//Delete -
 func Delete(key string) {
 	mut.Lock()
 	defer mut.Unlock()
@@ -26,7 +27,7 @@ func Delete(key string) {
 	}
 }
 
-//export Get
+//Get -
 func Get(key string) string {
 	mut.RLock()
 	defer mut.RUnlock()
