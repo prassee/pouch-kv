@@ -3,12 +3,24 @@ Package kvrepo - the simple map based backend
 */
 package kvrepo
 
+import (
+	"encoding/gob"
+	"os"
+)
+
+var pouchFilePath = ".pouchfile.db"
+
 type kvrepo struct {
 	kvStore map[string]string
 }
 
 func NewKVStore() kvrepo {
-	return kvrepo{kvStore: make(map[string]string)}
+	_, err := os.Stat(pouchFilePath)
+	if os.IsNotExist(err) {
+		return kvrepo{kvStore: make(map[string]string)}
+	} else {
+		return readFromFile()
+	}
 }
 
 func (kvs kvrepo) Put(key, value string) {
@@ -30,8 +42,25 @@ func (kvs kvrepo) Pop(key string) {
 	delete(kvs.kvStore, key)
 }
 
-func (kvs kvrepo) WriteToFile() {
+func (kvs kvrepo) writeToFile() {
+	pouchfile, err := os.Create(pouchFilePath)
+	if err != nil {
+		panic("can't write to file")
+	}
+	dataEncoder := gob.NewEncoder(pouchfile)
+	dataEncoder.Encode(kvs)
+	pouchfile.Close()
 }
 
-func (kvs kvrepo) ReadFromFile() {
+func readFromFile() kvrepo {
+	kvs := kvrepo{kvStore: make(map[string]string)}
+	pouchfile, err := os.Open(pouchFilePath)
+	if err != nil {
+		panic("cannot read from file")
+	}
+
+	dataDecoder := gob.NewDecoder(pouchfile)
+	dataDecoder.Decode(&kvs)
+	pouchfile.Close()
+	return kvs
 }
