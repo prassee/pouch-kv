@@ -1,15 +1,15 @@
-package main
+package pouchkv
 
 // import "C"
 import (
-	"simpleGoKVStore/kvrepo"
+	"pouch-kv/kvrepo"
 	"sync"
 )
 
 var mut sync.RWMutex
 var kv = kvrepo.NewKVStore()
 
-func main() {}
+// func main() {}
 
 //Put - adds a key value entry in to store
 func Put(key, value string) {
