@@ -1,7 +1,7 @@
 /**
 Package api -
 **/
-package api
+package simpleGoKVStore
 
 // import "C"
 import (
