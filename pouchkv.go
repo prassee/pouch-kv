@@ -22,7 +22,7 @@ func Put(key, value string) {
 }
 
 //Delete - removes key from store
-func Delete(key string) {	
+func Delete(key string) {
 	mut.Lock()
 	defer mut.Unlock()
 	if kv.HasEntry(key) {
